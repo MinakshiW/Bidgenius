@@ -14,3 +14,4 @@ class CancelledAuctions(models.Model):
     auction = models.OneToOneField('auctions.AuctionDetails', on_delete=models.CASCADE, related_name='c_auctions')
     cancellation_reason = models.TextField()
     cancelled_by = models.CharField(max_length=10,choices=CANCEL_CHOICES)
+
