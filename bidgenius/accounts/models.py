@@ -26,7 +26,7 @@ class User(AbstractUser):
     passport_front = models.ImageField(blank=True, upload_to='passport_front/')
     passport_back = models.ImageField(blank=True, upload_to='passport_back/')
     contact_no = PhoneNumberField(blank=True, region='IN')
-    address = models.TextField(blank=True)
+    address = models.TextField(blank=True)  
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='users', blank=True, null=True)
     pincode = models.PositiveIntegerField(blank=True, null=True)
     

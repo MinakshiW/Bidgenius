@@ -1,3 +1,4 @@
+
 from rest_framework import generics,status
 from rest_framework.response import Response
 from auctions.models import AuctionDetails,Bidders,CurrentBids
@@ -77,3 +78,17 @@ class LastBidView(generics.RetrieveAPIView):
             return Response({"latest_bid": last_bid.bid_amount}, status=status.HTTP_200_OK)
         else:
             return Response({"message": "No bids yet"}, status=status.HTTP_200_OK)
+''' auction details'''
+from rest_framework import viewsets
+from .serializers import AuctionDetailsSerializer
+from .models import AuctionDetails
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+
+class AuctionDetailsAPI(viewsets.ModelViewSet):
+    serializer_class = AuctionDetailsSerializer
+    queryset = AuctionDetails.objects.all()
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+

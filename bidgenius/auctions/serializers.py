@@ -24,4 +24,13 @@ class BiddersSerializer(serializers.ModelSerializer):
 class CurrentBidsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CurrentBids
+=======
+from .models import AuctionDetails
+from seller.serializers import ProductInformationSerializer
+
+class AuctionDetailsSerializer(serializers.ModelSerializer):
+    product = ProductInformationSerializer(read_only=True)
+    class Meta:
+        model = AuctionDetails
+
         fields = '__all__'
