@@ -1,11 +1,66 @@
+
+from rest_framework import generics
+from seller.serializers import ProductInfoSerializer,ProductCategorySerializer,ProductImageSerializer,ProductImagesSerializer, ProductSerializer
+from accounts.serializers import UserSerializer
+from seller.models import ProductInformation,ProductCategory,ProductImages
+from rest_framework import status
+from django_filters.rest_framework import DjangoFilterBackend
+
 from rest_framework import viewsets
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from .serializers import ProductInformationSerializer, ProductImagesSerializer
+from .serializers import ProductInformationSerializer, ProductImagessSerializer
 from .models import ProductInformation, ProductImages
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.pagination import LimitOffsetPagination
+
+class ProductInfoCreateView(generics.CreateAPIView,generics.ListAPIView):
+    serializer_class = ProductInfoSerializer
+    queryset = ProductInformation.objects.all()
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return ProductSerializer
+        return super().get_serializer_class()
+
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     return ProductInformation.objects.filter(owner=user)
+class ProductRetrieveView(generics.RetrieveAPIView):
+    serializer_class = ProductInfoSerializer
+    queryset = ProductInformation.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return ProductSerializer
+        return super().get_serializer_class()
+
+
+class ProductCategoryListView(generics.ListAPIView):
+    serializer_class = ProductCategorySerializer
+    queryset = ProductCategory.objects.all()
+
+
+class ProductImageCreateView(generics.CreateAPIView,generics.ListAPIView):
+    serializer_class = ProductImageSerializer
+    queryset = ProductImages.objects.all()
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['product']
+
+
+
+class ProductimagesAPI(viewsets.ModelViewSet):
+    serializer_class = ProductImagesSerializer
+    queryset = ProductImages.objects.all()
+    http_method_names = ['get']
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated]
+   
 
 class AdminProductInformationAPI(viewsets.ModelViewSet):
     serializer_class = ProductInformationSerializer
@@ -35,7 +90,7 @@ class AdminProductInformationAPI(viewsets.ModelViewSet):
     def get_images(self, request, pk):
         product = self.get_object()
         images =  product.product_imagess.all()
-        serializer = ProductImagesSerializer(images, many=True)
+        serializer = ProductImagessSerializer(images, many=True)
         return Response(data=serializer.data, status=200)
     
 
@@ -61,8 +116,9 @@ class AdminProductInformationAPI(viewsets.ModelViewSet):
     #     return products_with_time
     
 class AdminProductimagesAPI(viewsets.ModelViewSet):
-    serializer_class = ProductImagesSerializer
+    serializer_class = ProductImagessSerializer
     queryset = ProductImages.objects.all()
     http_method_names = ['get']
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+

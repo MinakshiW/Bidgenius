@@ -130,23 +130,26 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         if not username or not password:
             raise ValidationError({'detail': 'Username and password are required.'})
 
+
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
             raise ValidationError({'detail': 'Incorrect username or password.'})
 
+
         if not user.check_password(password):
             raise ValidationError({'detail': 'Incorrect username or password.'})
+
 
         if not user.is_active:
             raise ValidationError({'detail': 'Inactive account.'})
             
         data =  super().validate(attrs)
         data['username'] = self.user.username
+
         data['is_superuser'] = self.user.is_superuser
         return data
 
     
 
 
-    

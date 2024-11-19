@@ -52,10 +52,13 @@ INSTALLED_APPS = [
     'auctions',
     'feedback',
     'reports',
+  
+    'django_filters',
+
     'django_celery_results',
     'django_celery_beat',
-]
 
+]
 AUTH_USER_MODEL = 'accounts.User'
 
 CORS_ORIGIN_WHITELIST = [
@@ -259,6 +262,9 @@ EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+
+
 
 
 #rest framework -> jwt authentication

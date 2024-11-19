@@ -1,3 +1,19 @@
+
+"""from accounts.models import User
+from rest_framework import viewsets
+from accounts.serializers import UserSerializer,MyTokenObtainPairSerializer
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+class UserModelViewSet(viewsets.ModelViewSet):
+    serializer_class = MyTokenObtainPairSerializer
+    queryset = User.objects.all()
+    http_method_names = ['get','post']
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]"""
+
+
+
 from rest_framework import generics
 from rest_framework.views import APIView
 from .serializers import AdminSerializer, CountrySerializer, StateSerializer, CitySerializer, UserSerializer
@@ -67,3 +83,4 @@ class LogoutAPI(APIView):
         
         except Exception as e:
             return Response(data={"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
